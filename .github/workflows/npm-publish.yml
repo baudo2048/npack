@@ -29,5 +29,10 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish
+      - run: |
+        # Change publish registry
+        echo "$(jq '.publishConfig.registry = "https://registry.npmjs.org"' package.json)" > package.json
+        # Publish package
+        npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
